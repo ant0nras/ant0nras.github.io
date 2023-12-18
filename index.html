@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cribbage Engine</title>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}">
+    
+  </head>
+  <body>
+    <div id = "container">
+      <header>
+        <h1>Cribbage Engine</h1> 
+      </header>
+      {% set suits = ['spades', 'hearts', 'clubs', 'diamonds'] %}
+      {% set ranks = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king'] %}
+      <div id = "content-1">
+        <form method = "post">
+          <div id = "form-content">
+            <div id = "main-content">
+              <div id = "deck" class = "hidden">
+                {% for i in range(4): %}
+                {% set suitid = suits[i] %}
+                  <div id = {{suitid}} class = "suit">
+                    {% for j in range(13): %}
+                      {% set source = "static/images/playing_cards_25_compressed/" + ranks[j] + "_of_" + suits[i] + ".png" %}
+                      {% set id = (j + 1)|string + "_" + i|string %}
+                      <div class = "card">
+                        <input type = "checkbox" class = "hidden" name = "{{id}}" id = "{{id}}">
+                        <label for = "{{id}}" class = "checklabel"><div id = "test"><img class = "cardimg" src = {{source}}></img></div></label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div id = "side-content">
+              <div class = "form-container"> 
+                <p class = "form-container"> Please select a hand of six cards and indicate whether you will be the dealer this turn.</p>
+              </div>
+              <div class = "form-container" id = "selected"> 
+                Selected: 0/6
+              </div>
+              <div class = "form-container"> 
+                Dealer?
+                <input type = "radio" id = "isDealer" class = "hidden" name = "dealer" value = "Yes">
+                <label for = "isDealer" class = "radiolabel"> Yes </label>
+                <input type = "radio" id = "notDealer" class = "hidden" name = "dealer" value = "No">
+                <label for = "notDealer" class = "radiolabel"> No </label>
+              </div>
+              <div class = "form-container" id = "submitbar"> 
+                <div id = "submitbutton">
+                  <input type = "submit" disabled></input>
+                </div>
+                
+              </div>
+            </div>
+            
+          </div>
+        </form>
+        <div id = "load">
+        </div>
+      </div>
+      <div id = "content-2" class = "hidden">
+        <div id = "trynew">
+          <button>Try Another</button>
+        </div>
+        <table id = 'table-results'>
+          <tr>
+            <th>Kept</th>
+            <th>Sent to Crib</th>
+            <th>Expected Score</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <script src = "{{url_for('static', filename = 'scripts/jquery-3.7.1.min.js')}}"></script>
+    <script src = "{{url_for('static', filename = 'scripts/index.js')}}"></script>
+  </body>
+</html>  
